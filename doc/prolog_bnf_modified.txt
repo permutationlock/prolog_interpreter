@@ -1,0 +1,9 @@
+<program> ::= <clause list> <query> | <query>
+<clause list> ::= <clause> | <clause list> <clause>
+<clause> ::= <predicate> . | <predicate> :- <predicate list>.
+<predicate list> ::= <predicate> | <predicate list> , <predicate>
+<predicate> ::= ATOM | ATOM ( <term list> )
+<term list> ::= <term> | <term list> , <term>
+<term> ::= NUMBER | ATOM | VARIABLE | <structure>
+<structure> ::= ATOM ( <term list> )
+<query> ::= ?- <predicate list>.

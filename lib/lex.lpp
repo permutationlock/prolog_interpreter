@@ -1,0 +1,19 @@
+%option noyywrap nodefault yylineno
+%{
+#include <stdlib.h>
+#include "yacc.tab.hpp"
+int yyerror(const char *);
+int line_no = 1;
+%}
+
+%%
+"truths."                                     { return TRUTH; }
+"clear."                                      { return CLEAR; }
+(-)?[0-9]+                                    { yylval.d = atoi(yytext); return NUMBER; }
+[a-z]([a-z]|[A-Z]|[0-9]|_)*                   { yylval.s = strdup(yytext); return ATOM; }
+(_|[A-Z])([a-z]|[A-Z]|[0-9]|_)*               { yylval.s = strdup(yytext); return VARIABLE; }
+(\+|\-|\*|\/|\\|\^|~|:|,|\.|\?|#|\$|&|\(|\)) return *yytext;
+[ \t\f]                                         ;
+\n                                            { line_no++; return *yytext; }
+.                                             yyerror("invalid character");
+%%

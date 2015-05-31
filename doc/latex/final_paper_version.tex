@@ -1,0 +1,91 @@
+%
+% latex-sample.tex
+%
+% This LaTeX source file provides a template for a typical research paper.
+%
+
+%
+% Use the standard article template.
+%
+\documentclass{article}
+\usepackage{graphics} % for pdf, bitmapped graphics files
+\usepackage{epsfig} % for postscript graphics files
+\usepackage{mathptmx} % assumes new font selection scheme installed
+\usepackage{times} % assumes new font selection scheme installed
+\usepackage{amsmath} % assumes amsmath package installed
+\usepackage{amssymb}  % assumes amsmath package installed
+\usepackage{chngpage}
+\usepackage{lipsum}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% The geometry package allows for easy page formatting.
+\usepackage{geometry}
+\geometry{letterpaper}
+
+% Load up special logo commands.
+\usepackage{doc}
+
+% Package for formatting URLs.
+\usepackage{url}
+
+% Packages and definitions for graphics files.
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\lstset { %
+    language=C++,
+    backgroundcolor=\color{black!5}, % set backgroundcolor
+    basicstyle=\footnotesize,% basic font setting
+}
+
+%
+% Set the title, author, and date.
+%
+\title{Implementing a Prolog Interpreter in Flex and Bison}
+\author{Aven Bross}
+\date{5/8/2014}
+
+%
+% The document proper.
+%
+\begin{document}
+
+% Add the title section.
+\maketitle
+
+
+% Add various lists on new pages.
+%\pagebreak
+%\tableofcontents
+
+%\pagebreak
+%\listoffigures
+
+%\pagebreak
+%\listoftables
+
+% Start the paper on a new page.
+
+%
+% Body text.
+%
+
+\section{Introduction}
+
+In this project I created a simple prolog interpreter.  The interpreter handles atoms, variables and complex terms and performs unification to solve queries.  It does not provide more in depth prolog features such as arithmetic unification, lists or grammars.\\\\
+
+\section{Difficulties}
+
+The most difficult part of the project was by far the underlying unification algorithm.  I unfortunately wrote a large portion of the final version of the code without researching good unification algorithms.  Because of this, the algorithm is a bit odd and follows a very slow approach to unification.  But it does unify!\\\\
+
+\section{Outline}
+
+The compiler works by reading clauses into the knowledgebase.  Most of the code was written based off of how I knew prolog worked and the BNF grammar.  Due to this, I made my main data structures Clauses and Terms, from their titles in the BNF.  It constructs each clause by storing its name, type and then a vector of subclauses as well. Underneath Clauses are terms, which function the same way, with name, type and vector of subterms if necessary.\\\\
+As clauses are read into the knowledgebase, all of their variables are renamed to unique names.  In this way, we ensure that no user entered clauses can cause substitution errors later on.\\\\
+Queries are made by attempting to unify the users list of clauses with each clause in the knowledgebase.  Each set of substitutions that works is recorded, and then at the end the ultimate values for each of the users's variables are printed or simply "yes." if the user submitted no variables.
+
+
+
+\end{document}
